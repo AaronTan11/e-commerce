@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Head from "next/head";
 
 export default function ProductsPage() {
 	const [products, setProducts] = useState([]);
 	const [loading, setLoading] = useState(true);
 
+	// Fetch all products from the API
 	const fetchAllProducts = async () => {
 		try {
 			const res = await fetch("https://fakestoreapi.com/products");
@@ -19,6 +21,8 @@ export default function ProductsPage() {
 			setLoading(false);
 		}
 	};
+
+	// Fetch all products when the component mounts
 	useEffect(() => {
 		fetchAllProducts();
 	}, []);
@@ -29,6 +33,9 @@ export default function ProductsPage() {
 
 	return (
 		<div className='container mx-auto p-4'>
+			<Head>
+				<title>E-Commerce | Products</title>
+			</Head>
 			<h1 className='text-3xl font-bold mb-4'>Products</h1>
 			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
 				{products.map((product) => (

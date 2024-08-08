@@ -3,13 +3,15 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { MoveLeft } from "lucide-react";
+import Head from "next/head";
 
 export default function ProductPage() {
 	const [product, setProduct] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const router = useRouter();
-	const { id } = router.query;
+	const { id } = router.query; // Get the product ID from the URL
 
+	// Function to fetch a single product by ID
 	const fetchSingleProduct = async () => {
 		try {
 			const res = await fetch(`https://fakestoreapi.com/products/${id}`);
@@ -24,12 +26,14 @@ export default function ProductPage() {
 		}
 	};
 
+	// Fetch the product when the component mounts
 	useEffect(() => {
 		if (id) {
 			fetchSingleProduct();
 		}
 	}, [id]);
 
+	// Some Loading and Error Handling states
 	if (loading) {
 		return <div>Loading...</div>;
 	}
@@ -40,6 +44,9 @@ export default function ProductPage() {
 
 	return (
 		<main className='container'>
+			<Head>
+				<title>E-Commerce | {product.title}</title>
+			</Head>
 			<div className='mx-auto max-w-xl pt-10 '>
 				<h1 className='text-3xl font-bold mb-4'>{product.title}</h1>
 				<p className='text-gray-600 mb-4'>{product.description}</p>
